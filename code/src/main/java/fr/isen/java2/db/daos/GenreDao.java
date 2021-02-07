@@ -20,14 +20,14 @@ public class GenreDao {
 		List<Genre> list = new ArrayList<>();
 		DataSource db = DataSourceFactory.getDataSource();
 		try(Connection connection = db.getConnection()) {
-			String sqlQuery = "SELECT * FROM genre";
+			String sqlQuery = "SELECT * FROM genre";// requete SQL
 			try(PreparedStatement statement = connection.prepareStatement(sqlQuery)){
 				try(ResultSet resultSet = statement.executeQuery()){
 					while(resultSet.next()){
 						int id = resultSet.getInt("idgenre");
 						String name = resultSet.getString("name");
 						Genre genre = new Genre(id, name);
-						list.add(genre);
+						list.add(genre);//Ajout à la liste d'un genre
 					}
 					resultSet.close();
 				}
@@ -48,7 +48,7 @@ public class GenreDao {
 		Genre result;
 		DataSource db = DataSourceFactory.getDataSource();
 		try(Connection connection = db.getConnection()) {
-			String sqlQuery = "SELECT * FROM genre WHERE name = ?";
+			String sqlQuery = "SELECT * FROM genre WHERE name = ?";// requete SQL
 			try(PreparedStatement statement = connection.prepareStatement(sqlQuery)){
 				statement.setString(1, name);
 				try(ResultSet resultSet = statement.executeQuery()){
@@ -74,9 +74,12 @@ public class GenreDao {
 	}
 
 	public void addGenre(String name) {
+		/*
+		* Function that permit to add a genre in the database
+		 */
 		DataSource db = DataSourceFactory.getDataSource();
 		try(Connection connection = db.getConnection()) {
-			String sqlQuery = "INSERT INTO genre(name)" + "VALUES(?)";
+			String sqlQuery = "INSERT INTO genre(name)" + "VALUES(?)";// requete SQL
 			try(PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)){
 				statement.setString(1, name);
 				statement.executeUpdate();

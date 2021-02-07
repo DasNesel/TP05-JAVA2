@@ -19,10 +19,10 @@ public class FilmDao {
 		 */
 		List<Film> list = new ArrayList<>();
 		DataSource db = DataSourceFactory.getDataSource();
-		try(Connection connection = db.getConnection()) {
-			String sqlQuery = "SELECT * FROM film JOIN genre ON film.genre_id = genre.idgenre";
+		try(Connection connection = db.getConnection()) { // connection to the database
+			String sqlQuery = "SELECT * FROM film JOIN genre ON film.genre_id = genre.idgenre"; // requete SQL
 			try(PreparedStatement statement = connection.prepareStatement(sqlQuery)){
-				try(ResultSet resultSet = statement.executeQuery()){
+				try(ResultSet resultSet = statement.executeQuery()){ //Recupere le resultat de la requete SQL
 					while(resultSet.next()){
 						LocalDate release = resultSet.getDate("release_date").toLocalDate();
 						int id = resultSet.getInt("genre_id");
@@ -49,7 +49,7 @@ public class FilmDao {
 
 	public List<Film> listFilmsByGenre(String genreName) {
 	/*
-	 *Function use to get the id and the name of genres
+	 *Function use to get the list of the films that have a specific genre
 	 *
 	 */
 	List<Film> list = new ArrayList<>();
@@ -84,6 +84,9 @@ public class FilmDao {
 	}
 
 	public void addFilm(Film film) {
+		/*
+		* Function that permit to add a film to the database
+		 */
 		DataSource db = DataSourceFactory.getDataSource();
 		try (Connection connection = db.getConnection()) {
 			String sqlQuery = "INSERT INTO film(title,release_date,genre_id,duration,director,summary)" + "VALUES(?,?,?,?,?,?)";
